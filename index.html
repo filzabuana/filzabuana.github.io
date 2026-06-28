@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filza Buana Putra - Portfolio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-200 selection:text-indigo-900">
+
+    <div id="app" class="min-h-screen flex flex-col">
+        
+        <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-200">
+            <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-xl font-bold tracking-tight text-indigo-600 hover:text-indigo-700 transition">
+                    {{ profile.initials }}
+                </a>
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="#about" class="hover:text-indigo-600 transition">Tentang</a>
+                    <a href="#projects" class="hover:text-indigo-600 transition">Project</a>
+                    <a href="#math" class="hover:text-indigo-600 transition">Matematika</a>
+                    <a href="#photography" class="hover:text-indigo-600 transition">Fotografi</a>
+                </div>
+            </div>
+        </nav>
+
+        <header id="about" class="max-w-5xl mx-auto px-6 py-24 text-center md:text-left md:flex md:items-center md:justify-between gap-12 scroll-mt-20">
+            <div class="max-w-2xl">
+                <div class="inline-block px-3 py-1 mb-6 text-sm font-semibold text-indigo-700 bg-indigo-100 rounded-full">
+                    Web Developer & Educator
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
+                    Halo, Saya <span class="text-indigo-600">{{ profile.name }}</span>
+                </h1>
+                <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                    {{ profile.bio }}
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                    <a :href="profile.linkedin" target="_blank" class="flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow-sm hover:bg-indigo-700 hover:shadow transition-all">
+                        LinkedIn
+                    </a>
+                    <a :href="profile.github" target="_blank" class="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-semibold shadow-sm hover:bg-slate-800 hover:shadow transition-all">
+                        GitHub Profile
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-12 md:mt-0 flex justify-center flex-shrink-0">
+                <div class="w-56 h-56 md:w-72 md:h-72 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-[2rem] shadow-xl transform rotate-3 hover:rotate-0 transition duration-300 flex items-center justify-center text-white text-5xl font-black">
+                    {{ profile.initials }}
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-5xl mx-auto px-6 space-y-32 pb-24 w-full">
+            
+            <section id="projects" class="scroll-mt-24">
+                <div class="pt-8">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-3">Portfolio Digital</h2>
+                    <p class="text-slate-500 mb-10 text-lg">Eksplorasi sistem informasi dan automasi yang saya kembangkan.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div v-for="(project, index) in projects" :key="index" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow flex flex-col h-full group">
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full">
+                                        {{ project.category }}
+                                    </span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors">{{ project.title }}</h3>
+                                <p class="text-slate-600 text-base mb-6 leading-relaxed">{{ project.description }}</p>
+                                
+                                <div class="flex flex-wrap gap-2 mb-8">
+                                    <span v-for="tech in project.techStack" class="text-xs font-medium bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">
+                                        {{ tech }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-slate-100">
+                                <a :href="project.githubLink" target="_blank" class="text-sm font-bold text-slate-900 hover:text-indigo-600 inline-flex items-center gap-2 transition-colors">
+                                    Lihat Repositori &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="math" class="scroll-mt-24">
+                <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-10 md:p-14 rounded-3xl shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-white opacity-5 blur-3xl"></div>
+                    
+                    <div class="max-w-2xl relative z-10">
+                        <div class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-indigo-200 bg-white/10 rounded-full border border-white/20">
+                            AKADEMIS & EDUKASI
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Dunia Matematika</h2>
+                        <p class="text-indigo-100/80 mb-8 text-lg leading-relaxed">
+                            Logika matematika adalah fondasi dari setiap baris kode yang saya tulis. Selain pengembangan web, saya mendalami Analisis Real, Kombinatorika, merancang modul dengan LaTeX, dan membahas *problem-solving* tingkat lanjut.
+                        </p>
+                        <a :href="links.mathWeb" target="_blank" class="inline-flex items-center justify-center bg-white text-slate-900 font-bold px-6 py-3.5 rounded-xl shadow hover:bg-indigo-50 hover:scale-105 transition-all">
+                            Kunjungi matematika.filzabuana.id
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="photography" class="scroll-mt-24">
+                <div class="pt-8">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-3">Galeri Lensa</h2>
+                    <p class="text-slate-500 mb-10 text-lg">Menangkap momen estetik sebagai penyeimbang presisi kode dan matematika.</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                        <div v-for="(photo, index) in photos" :key="index" class="group relative overflow-hidden rounded-2xl bg-slate-200 aspect-[4/5] shadow-sm">
+                            <img :src="photo.url" :alt="photo.caption" class="object-cover w-full h-full transition duration-700 group-hover:scale-110" loading="lazy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <p class="text-white font-semibold text-lg">{{ photo.caption }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center text-sm text-slate-500" v-if="photos.length === 0">
+                        <p>Galeri foto sedang dalam tahap kurasi dan akan segera diunggah.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-auto border-t border-slate-200 bg-white py-8 text-center text-slate-500">
+            <p class="font-medium">&copy; 2026 {{ profile.name }}.</p>
+            <p class="text-sm mt-1">Dibangun dengan Vue 3 & Tailwind CSS.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    profile: {
+                        name: "Filza Buana Putra",
+                        initials: "FBP",
+                        bio: "Saya adalah Pranata Laboratorium Pendidikan di FMIPA Universitas Tanjungpura sekaligus Web Developer. Saya menggabungkan keahlian manajemen infrastruktur TI, otomasi, dan framework modern seperti Laravel & Vue untuk menciptakan solusi sistem informasi yang efisien.",
+                        linkedin: "https://www.linkedin.com/in/filza-buana-putra-45a5a41a3/",
+                        github: "https://github.com/filzabuana"
+                    },
+                    links: {
+                        mathWeb: "https://matematika.filzabuana.id"
+                    },
+                    projects: [
+                        {
+                            title: "Sistem Informasi Manajemen Laboratorium (Lab Siskom)",
+                            category: "Aplikasi Web / Internal",
+                            description: "Platform berbasis Laravel untuk otomatisasi administrasi laboratorium komputer dan validasi instan surat bebas laboratorium bagi mahasiswa tingkat akhir.",
+                            techStack: ["Laravel", "PHP", "MySQL", "Tailwind"],
+                            githubLink: "https://github.com/filzabuana/lab-siskom"
+                        },
+                        {
+                            title: "Otomasi Ekstraksi Data Publik",
+                            category: "Python / Automation",
+                            description: "Skrip berbasis Python dan Selenium untuk melakukan ekstraksi dan navigasi pada situs web dinamis guna pengumpulan data secara terjadwal.",
+                            techStack: ["Python", "Selenium", "Web Scraping"],
+                            githubLink: "https://github.com/filzabuana"
+                        }
+                    ],
+                    photos: [
+                        // Ganti URL dengan link gambar lu yang sebenarnya (Bisa pakai Imgur / Postimages)
+                        { url: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&q=80", caption: "Perspektif Kode" },
+                        { url: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?w=800&q=80", caption: "Ruang Komputasi" },
+                        { url: "https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=800&q=80", caption: "Abstraksi Simetris" }
+                    ]
+                }
+            },
+            
+            // CONTOH PENGGUNAAN FETCH API GOOGLE SHEETS NANTINYA (Opsi A)
+            /*
+            mounted() {
+                // Hapus komentar ini jika lu sudah punya Endpoint API dari Stein/Sheety
+                const apiURL = 'URL_API_STEIN_ATAU_SHEETY_LU';
+                
+                fetch(apiURL)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Memasukkan data dari spreadsheet ke array projects
+                        this.projects = data; 
+                    })
+                    .catch(error => console.error('Gagal mengambil data portfolio:', error));
+            }
+            */
+            
+        }).mount('#app');
+    </script>
+</body>
+</html>
