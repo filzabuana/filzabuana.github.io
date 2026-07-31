@@ -7,7 +7,6 @@ import {
   Briefcase, 
   BookOpen, 
   Camera, 
-  Mail, 
   Menu, 
   X, 
   ExternalLink,
@@ -128,10 +127,10 @@ onMounted(() => {
       const radius = this.baseRadius + Math.sin(time * 0.03 + this.pulseOffset) * 0.15
       const alpha = 0.25 + Math.sin(time * 0.02 + this.pulseOffset) * 0.15
 
-      // Adapt colors based on current dark/light mode state
+      // Adapt colors based on primary Sky/Blue theme
       const color = isDarkMode.value 
-        ? { r: 16, g: 185, b: 129 }  // Emerald 500
-        : { r: 5, g: 150, b: 105 }  // Emerald 600
+        ? { r: 14, g: 165, b: 233 }  // Sky 500
+        : { r: 37, g: 99, b: 235 }   // Blue 600
 
       ctx.beginPath()
       ctx.arc(this.x, this.y, radius, 0, Math.PI * 2)
@@ -154,11 +153,11 @@ onMounted(() => {
     time++
     ctx.clearRect(0, 0, width, height)
 
-    // Draw network connections (using emerald theme)
+    // Draw network connections (using Sky/Blue theme)
     const maxDist = 110
     const lineColor = isDarkMode.value
-      ? 'rgba(16, 185, 129, '
-      : 'rgba(5, 150, 105, '
+      ? 'rgba(14, 165, 233, '
+      : 'rgba(37, 99, 235, '
 
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -197,9 +196,9 @@ onMounted(() => {
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       <!-- Color Blobs -->
       <div class="absolute -top-[10%] left-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full blur-3xl transition-colors duration-500"
-           :class="isDarkMode ? 'bg-emerald-600/10' : 'bg-emerald-500/5'"></div>
+           :class="isDarkMode ? 'bg-sky-600/10' : 'bg-sky-500/5'"></div>
       <div class="absolute top-1/2 right-[5%] w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] rounded-full blur-3xl transition-colors duration-500"
-           :class="isDarkMode ? 'bg-teal-700/5' : 'bg-teal-600/5'"></div>
+           :class="isDarkMode ? 'bg-emerald-700/5' : 'bg-emerald-600/5'"></div>
       
       <!-- Interactive canvas -->
       <canvas id="app-bg-canvas" class="absolute inset-0 w-full h-full opacity-60"></canvas>
@@ -211,7 +210,7 @@ onMounted(() => {
         
         <!-- Logo -->
         <RouterLink to="/" class="flex items-center space-x-2 group">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-sky-500 flex items-center justify-center shadow-lg shadow-sky-500/20 group-hover:scale-105 transition-transform duration-300">
             <Terminal class="w-4 h-4 text-white" />
           </div>
           <span class="font-mono text-sm tracking-wider font-bold group-hover:opacity-80 transition-opacity duration-300"
@@ -225,7 +224,7 @@ onMounted(() => {
           <div class="flex items-center space-x-1">
             <RouterLink to="/" class="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-xl transition-all duration-300"
                         :class="$route.path === '/' 
-                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shadow-sm' 
+                          ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 shadow-sm' 
                           : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 border border-transparent'">
               <HomeIcon class="w-3.5 h-3.5" />
               <span>Home</span>
@@ -233,7 +232,7 @@ onMounted(() => {
 
             <RouterLink to="/projects" class="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-xl transition-all duration-300"
                         :class="$route.path === '/projects' 
-                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shadow-sm' 
+                          ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 shadow-sm' 
                           : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 border border-transparent'">
               <Briefcase class="w-3.5 h-3.5" />
               <span>Projects</span>
@@ -241,14 +240,14 @@ onMounted(() => {
 
             <a href="https://matematika.filzabuana.id" target="_blank" rel="noopener noreferrer"
                class="flex items-center gap-1.5 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 rounded-xl border border-transparent text-xs font-medium transition-all duration-300">
-              <BookOpen class="w-3.5 h-3.5 text-emerald-500" />
+              <BookOpen class="w-3.5 h-3.5 text-sky-500" />
               <span>Math Blog</span>
               <ExternalLink class="w-3 h-3 opacity-60" />
             </a>
 
             <a href="https://photography.filzabuana.id" target="_blank" rel="noopener noreferrer"
                class="flex items-center gap-1.5 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 rounded-xl border border-transparent text-xs font-medium transition-all duration-300">
-              <Camera class="w-3.5 h-3.5 text-teal-500" />
+              <Camera class="w-3.5 h-3.5 text-emerald-500" />
               <span>Photography</span>
               <ExternalLink class="w-3 h-3 opacity-60" />
             </a>
@@ -262,7 +261,7 @@ onMounted(() => {
                   class="p-2 rounded-xl border border-transparent hover:bg-slate-500/5 transition-all text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 focus:outline-none cursor-pointer"
                   title="Toggle Theme">
             <Sun v-if="isDarkMode" class="w-4 h-4 text-amber-400" />
-            <Moon v-else class="w-4 h-4 text-emerald-600" />
+            <Moon v-else class="w-4 h-4 text-blue-600" />
           </button>
         </div>
 
@@ -270,9 +269,9 @@ onMounted(() => {
         <div class="flex items-center space-x-1 md:hidden">
           <button @click="toggleTheme" 
                   class="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-500/5 focus:outline-none"
-                  title="Ganti Tema">
+                  title="Toggle Theme">
             <Sun v-if="isDarkMode" class="w-4 h-4 text-amber-400" />
-            <Moon v-else class="w-4 h-4 text-emerald-600" />
+            <Moon v-else class="w-4 h-4 text-blue-600" />
           </button>
           
           <button @click="toggleMobileMenu" class="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-500/5 transition-colors focus:outline-none">
@@ -296,7 +295,7 @@ onMounted(() => {
           <RouterLink to="/" @click="isMobileMenuOpen = false" 
                       class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
                       :class="$route.path === '/' 
-                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                        ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400' 
                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5'">
             <HomeIcon class="w-4 h-4" />
             <span>Home</span>
@@ -305,7 +304,7 @@ onMounted(() => {
           <RouterLink to="/projects" @click="isMobileMenuOpen = false"
                       class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
                       :class="$route.path === '/projects' 
-                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                        ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400' 
                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5'">
             <Briefcase class="w-4 h-4" />
             <span>Projects</span>
@@ -314,7 +313,7 @@ onMounted(() => {
           <a href="https://matematika.filzabuana.id" target="_blank" rel="noopener noreferrer"
              class="flex items-center justify-between px-4 py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 text-sm font-medium transition-colors">
             <div class="flex items-center gap-2">
-              <BookOpen class="w-4 h-4 text-emerald-500" />
+              <BookOpen class="w-4 h-4 text-sky-500" />
               <span>Math Blog</span>
             </div>
             <ExternalLink class="w-3.5 h-3.5 opacity-60" />
@@ -323,7 +322,7 @@ onMounted(() => {
           <a href="https://photography.filzabuana.id" target="_blank" rel="noopener noreferrer"
              class="flex items-center justify-between px-4 py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 text-sm font-medium transition-colors">
             <div class="flex items-center gap-2">
-              <Camera class="w-4 h-4 text-teal-500" />
+              <Camera class="w-4 h-4 text-emerald-500" />
               <span>Photography</span>
             </div>
             <ExternalLink class="w-3.5 h-3.5 opacity-60" />
@@ -344,8 +343,9 @@ onMounted(() => {
     <!-- Footer -->
     <footer class="relative z-10 w-full border-t border-slate-300/40 dark:border-white/5 bg-slate-200/20 dark:bg-slate-950/30 py-6 font-mono text-[11px] text-slate-500 transition-colors">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
-          &copy; {{ new Date().getFullYear() }} Filza Buana Putra.
+        <div class="flex items-center gap-2">
+          <span>&copy; {{ new Date().getFullYear() }} Filza Buana Putra.</span>
+          <span class="px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 text-[10px] font-semibold">v0.1.1</span>
         </div>
         <div class="flex items-center space-x-3 text-slate-500 dark:text-slate-400">
           <span>FMIPA Tanjungpura University</span>

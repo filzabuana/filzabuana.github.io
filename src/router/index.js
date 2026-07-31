@@ -34,6 +34,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  if (to.query && to.query.p) {
+    const redirectPath = '/' + decodeURIComponent(to.query.p)
+    return { path: redirectPath, replace: true }
+  }
   document.title = to.meta.title || 'Filza Buana Putra'
 })
 

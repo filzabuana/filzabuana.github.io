@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Single Page Apps for GitHub Pages
+      // Redirects 404s to index.html with route preserved
+      const segmentCount = 0;
+      const l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=' +
+        encodeURIComponent(l.pathname.slice(1) + l.search) +
+        (l.hash ? '&h=' + encodeURIComponent(l.hash.slice(1)) : '')
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

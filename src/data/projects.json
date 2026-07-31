@@ -64,5 +64,16 @@
     "demo": "https://pdf.filzabuana.id",
     "is_featured": false,
     "image": "/images/projects/pdf-tools.png"
+  },
+  {
+    "id": "personal-web-hub",
+    "title": "Personal Portfolio & Web Hub",
+    "description": "Modern personal landing hub, project portfolio, and central gateway across all digital platforms.",
+    "category": "Web Application",
+    "tags": ["Vue 3", "Vite", "Tailwind CSS", "JavaScript"],
+    "github": "https://github.com/filzabuana/filzabuana.id",
+    "demo": "https://filzabuana.id",
+    "is_featured": false,
+    "image": "/images/projects/personal-hub.png"
   }
 ]

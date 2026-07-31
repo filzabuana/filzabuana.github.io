@@ -4,6 +4,7 @@ import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/',
   plugins: [vue()],
   resolve: {
     alias: {
@@ -14,7 +15,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        fallback: resolve(__dirname, 'fallback.html')
+        server_off: resolve(__dirname, 'server-off.html')
       }
     }
   }
