@@ -301,11 +301,11 @@ const getCategoryColor = (cat) => {
             <Gamepad2 class="w-5 h-5 text-indigo-500" />
             <span>Web Games & Retro Arcade</span>
           </h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-light">Koleksi game interaktif berbasis HTML5 Canvas & Web Audio.</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-light">Interactive game collection built with HTML5 Canvas & Web Audio.</p>
         </div>
         <RouterLink to="/games"
                     class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
-          <span>Lihat Semua Game</span>
+          <span>View All Games</span>
           <ArrowUpRight class="w-4 h-4" />
         </RouterLink>
       </div>
@@ -319,27 +319,27 @@ const getCategoryColor = (cat) => {
         <!-- Section Info & Direct Play Button -->
         <div class="lg:col-span-7 space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
-            <span>Unggulan &bull; JS Tetris Retro</span>
+            <span>Featured &bull; JS Tetris Retro</span>
           </div>
 
           <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            Mainkan Tetris Retro Langsung di Browser
+            Play Retro Tetris Directly in Browser
           </h3>
 
           <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light">
-            Dirancang menggunakan murni HTML5 Canvas, Tailwind CSS, dan synthesizer audio 8-bit DMG-01 GameBoy. Lengkap dengan kontrol keyboard dan touchscreen responsif.
+            Engineered with pure HTML5 Canvas, Tailwind CSS, and an 8-bit DMG-01 GameBoy audio synth engine. Complete with responsive keyboard and touch controls.
           </p>
 
           <div class="pt-2 flex flex-wrap items-center gap-4">
             <RouterLink to="/games/tetris"
                         class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all">
               <Play class="w-4 h-4 fill-white" />
-              <span>Mainkan Tetris</span>
+              <span>Play Tetris</span>
             </RouterLink>
 
             <RouterLink to="/games"
                         class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-slate-300 text-xs font-medium transition-all">
-              <span>Buka Katalog Arcade</span>
+              <span>Open Arcade Catalog</span>
             </RouterLink>
           </div>
         </div>

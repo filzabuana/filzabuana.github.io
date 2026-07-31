@@ -542,7 +542,7 @@ onUnmounted(() => {
     <div class="flex items-center justify-between mb-6">
       <RouterLink to="/games" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-slate-300 hover:text-white text-xs font-medium transition-all">
         <ArrowLeft class="w-4 h-4" />
-        <span>Kembali ke Games</span>
+        <span>Back to Games</span>
       </RouterLink>
 
       <button @click="toggleAudio" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-xs font-medium text-slate-300 hover:text-white transition-all">
@@ -563,10 +563,10 @@ onUnmounted(() => {
         </div>
         
         <div class="flex flex-wrap justify-center gap-3 text-xs font-mono bg-slate-950/80 py-2 px-5 rounded-2xl border border-slate-800 w-max mx-auto shadow-inner">
-          <div class="text-emerald-400">SKOR: <span class="font-bold text-white">{{ score }}</span></div>
-          <div class="text-pink-400">TERTINGGI: <span class="font-bold text-white">{{ highScore }}</span></div>
+          <div class="text-emerald-400">SCORE: <span class="font-bold text-white">{{ score }}</span></div>
+          <div class="text-pink-400">HIGH SCORE: <span class="font-bold text-white">{{ highScore }}</span></div>
           <div class="text-indigo-400">LEVEL: <span class="font-bold text-white">{{ level }}</span></div>
-          <div class="text-amber-400">BARIS: <span class="font-bold text-white">{{ linesCleared }}</span></div>
+          <div class="text-amber-400">LINES: <span class="font-bold text-white">{{ linesCleared }}</span></div>
         </div>
       </header>
 
@@ -593,7 +593,7 @@ onUnmounted(() => {
                     class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all text-sm flex items-center gap-2 uppercase tracking-wider cursor-pointer">
               <Play v-if="!gameStarted" class="w-4 h-4 fill-white" />
               <RotateCcw v-else class="w-4 h-4" />
-              <span>{{ gameStarted ? 'Main Lagi' : 'Mulai Game' }}</span>
+              <span>{{ gameStarted ? 'Play Again' : 'Start Game' }}</span>
             </button>
           </div>
         </div>
@@ -623,13 +623,13 @@ onUnmounted(() => {
 
         <!-- Desktop Controls Guide -->
         <div class="hidden md:flex justify-center gap-6 bg-slate-950/60 p-3 rounded-2xl border border-slate-800/80 text-xs text-slate-400 font-mono">
-          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">←</kbd> <kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">→</kbd> Geser</div>
-          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">↑</kbd> Putar</div>
-          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">↓</kbd> Turun Cepat</div>
+          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">←</kbd> <kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">→</kbd> Move</div>
+          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">↑</kbd> Rotate</div>
+          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">↓</kbd> Soft Drop</div>
         </div>
 
         <p class="text-[11px] text-center text-amber-400/90 font-medium md:hidden animate-pulse">
-          💡 Tap layar game untuk memutar | Tahan untuk turun cepat
+          💡 Tap screen to rotate | Hold to soft drop
         </p>
       </section>
 

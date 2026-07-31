@@ -14,10 +14,10 @@ const featuredGame = {
   id: 'tetris',
   title: 'JS Tetris Retro',
   category: 'Classic Arcade',
-  description: 'Game Tetris klasik dengan 8-bit DMG-01 GameBoy audio engine, level progresif, CRT scanlines, dan kontrol sentuh/keyboard.',
+  description: 'Classic Tetris game featuring an 8-bit DMG-01 GameBoy audio engine, progressive levels, CRT scanlines, and responsive touch/keyboard controls.',
   link: '/games/tetris',
-  badge: 'Populer',
-  tags: ['Javascript', 'HTML5 Canvas', 'Web Audio Synth']
+  badge: 'Popular',
+  tags: ['JavaScript', 'HTML5 Canvas', 'Web Audio Synth']
 }
 
 const upcomingGames = [
@@ -25,24 +25,24 @@ const upcomingGames = [
     id: 'snake',
     title: 'Retro Snake 2D',
     category: 'Arcade',
-    description: 'Game ular klasik dengan visual neon cyber-punk dan efek power-up.',
-    badge: 'Segera Hadir',
+    description: 'Classic snake game with neon cyberpunk visuals and power-up mechanics.',
+    badge: 'Coming Soon',
     icon: '🐍'
   },
   {
     id: 'pong',
     title: 'Neon Pong Battle',
     category: 'Multiplayer / AI',
-    description: 'Aksi bola & raket 2D dengan efek partikel glow dan AI bot tangguh.',
-    badge: 'Segera Hadir',
+    description: '2D paddle & ball action with glow particle effects and responsive AI.',
+    badge: 'Coming Soon',
     icon: '🏓'
   },
   {
     id: 'space',
     title: 'Galactic Defender',
     category: 'Shooter',
-    description: 'Tembak alien dan hindari asteroid dalam game space shooter retro.',
-    badge: 'Segera Hadir',
+    description: 'Shoot aliens and dodge space hazards in a retro space shooter.',
+    badge: 'Coming Soon',
     icon: '🚀'
   }
 ]
@@ -58,17 +58,17 @@ const upcomingGames = [
           <span>Arcade & Game Zone</span>
         </div>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Game Arcade Hub
+          Arcade Games Hub
         </h1>
         <p class="mt-2 text-sm sm:text-base text-slate-400 max-w-xl">
-          Koleksi game retro berbasis web buatan sendiri. Mainkan langsung di browser tanpa install!
+          A collection of self-built web retro games. Play instantly in your browser with zero installation!
         </p>
       </div>
 
       <div class="flex items-center gap-3 bg-slate-950/60 px-5 py-3 rounded-2xl border border-slate-800 text-slate-300 font-mono text-xs">
         <Trophy class="w-5 h-5 text-amber-400" />
         <div>
-          <div class="text-[10px] text-slate-500 uppercase tracking-wider">High Score Tetris</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-wider">Tetris High Score</div>
           <div class="text-sm font-bold text-white">{{ tetrisHighScore }} Pts</div>
         </div>
       </div>
@@ -78,7 +78,7 @@ const upcomingGames = [
     <section class="mb-12">
       <div class="flex items-center gap-2 mb-4">
         <Flame class="w-5 h-5 text-rose-500" />
-        <h2 class="text-lg font-bold text-slate-200">Game Unggulan</h2>
+        <h2 class="text-lg font-bold text-slate-200">Featured Game</h2>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden group hover:border-indigo-500/40 transition-all duration-300">
@@ -117,7 +117,7 @@ const upcomingGames = [
             <RouterLink :to="featuredGame.link" 
                         class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-bold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-105 active:scale-95 transition-all text-sm uppercase tracking-wider">
               <Play class="w-4 h-4 fill-white" />
-              <span>Mainkan Sekarang</span>
+              <span>Play Now</span>
             </RouterLink>
           </div>
         </div>
@@ -128,7 +128,7 @@ const upcomingGames = [
     <section>
       <div class="flex items-center gap-2 mb-6">
         <Sparkles class="w-5 h-5 text-sky-400" />
-        <h2 class="text-lg font-bold text-slate-200">Katalog Game Mendatang</h2>
+        <h2 class="text-lg font-bold text-slate-200">Upcoming Games Catalog</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -147,7 +147,7 @@ const upcomingGames = [
           </div>
 
           <div class="pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500">
-            <span>Kategori: {{ game.category }}</span>
+            <span>Category: {{ game.category }}</span>
             <span class="font-mono text-[10px] uppercase">Coming Soon</span>
           </div>
         </div>
