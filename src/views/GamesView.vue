@@ -1,7 +1,14 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { Gamepad2, Play, Sparkles, Trophy, Flame } from '@lucide/vue'
 import TetrisPreview from '../components/TetrisPreview.vue'
+
+const tetrisHighScore = ref(0)
+
+onMounted(() => {
+  tetrisHighScore.value = localStorage.getItem('tetris_high_score') || 0
+})
 
 const featuredGame = {
   id: 'tetris',
@@ -62,7 +69,7 @@ const upcomingGames = [
         <Trophy class="w-5 h-5 text-amber-400" />
         <div>
           <div class="text-[10px] text-slate-500 uppercase tracking-wider">High Score Tetris</div>
-          <div class="text-sm font-bold text-white">{{ featuredGame ? (localStorage.getItem('tetris_high_score') || 0) : 0 }} Pts</div>
+          <div class="text-sm font-bold text-white">{{ tetrisHighScore }} Pts</div>
         </div>
       </div>
     </header>
