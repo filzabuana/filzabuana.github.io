@@ -13,9 +13,12 @@ import {
   Layers,
   Wrench,
   Sparkles,
-  BookOpen
+  BookOpen,
+  Gamepad2,
+  Play
 } from '@lucide/vue'
 import projectsData from '../data/projects.json'
+import TetrisPreview from '../components/TetrisPreview.vue'
 
 // Only show the Laboratory Management System project on the home page
 const featuredProject = computed(() => {
@@ -283,6 +286,61 @@ const getCategoryColor = (cat) => {
             <div class="text-[10px] text-sky-600 dark:text-sky-400 font-bold">// Euler's Identity & Complex Analysis</div>
             <div>e^{i\pi} + 1 = 0</div>
             <div class="border-t border-slate-200/80 dark:border-slate-800/60 pt-2">f(a) = \frac{1}{2\pi i} \oint_C \frac{f(z)}{z-a} dz</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION: ARCADE & WEB GAMES (RETRO TETRIS SHOWCASE)                -->
+    <!-- ================================================================= -->
+    <section class="space-y-6 animate-reveal reveal-delay-3">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800/80 pb-4">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <Gamepad2 class="w-5 h-5 text-indigo-500" />
+            <span>Web Games & Retro Arcade</span>
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-light">Koleksi game interaktif berbasis HTML5 Canvas & Web Audio.</p>
+        </div>
+        <RouterLink to="/games"
+                    class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+          <span>Lihat Semua Game</span>
+          <ArrowUpRight class="w-4 h-4" />
+        </RouterLink>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center p-6 sm:p-8 rounded-3xl border border-indigo-500/20 bg-slate-900/60 dark:bg-slate-900/90 shadow-xl backdrop-blur-md">
+        <!-- Live Automated Tetris Preview Canvas -->
+        <div class="lg:col-span-5 w-full">
+          <TetrisPreview />
+        </div>
+
+        <!-- Section Info & Direct Play Button -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
+            <span>Unggulan &bull; JS Tetris Retro</span>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            Mainkan Tetris Retro Langsung di Browser
+          </h3>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light">
+            Dirancang menggunakan murni HTML5 Canvas, Tailwind CSS, dan synthesizer audio 8-bit DMG-01 GameBoy. Lengkap dengan kontrol keyboard dan touchscreen responsif.
+          </p>
+
+          <div class="pt-2 flex flex-wrap items-center gap-4">
+            <RouterLink to="/games/tetris"
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all">
+              <Play class="w-4 h-4 fill-white" />
+              <span>Mainkan Tetris</span>
+            </RouterLink>
+
+            <RouterLink to="/games"
+                        class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-slate-300 text-xs font-medium transition-all">
+              <span>Buka Katalog Arcade</span>
+            </RouterLink>
           </div>
         </div>
       </div>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JS Tetris - Filza Buana Putra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, button, canvas {
+            touch-action: none; /* Mencegah layar ter-zoom atau terscroll saat dimainkan di HP */
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Efek CRT Scanline tipis untuk nuansa retro */
+        #game-container::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 20;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white h-screen w-screen flex flex-col items-center justify-start p-3 select-none overflow-hidden font-sans">
+
+    <header class="text-center w-full shrink-0 pt-1">
+        <h1 class="text-lg font-black tracking-widest text-indigo-400 leading-none drop-shadow-md">JS TETRIS</h1>
+        <div class="flex justify-center gap-4 text-[10px] font-mono mt-1.5 bg-slate-800/60 py-1 px-4 rounded-full border border-slate-700/50 w-max mx-auto shadow-inner">
+            <div class="text-emerald-400">SKOR: <span id="score" class="font-bold text-white">0</span></div>
+            <div class="text-pink-400">TERTINGGI: <span id="high-score" class="font-bold text-white">0</span></div>
+            <div class="text-indigo-400">LEVEL: <span id="level" class="font-bold text-white">1</span></div>
+            <div class="text-amber-400">BARIS: <span id="lines" class="font-bold text-white">0</span></div>
+        </div>
+    </header>
+
+    <main class="w-full flex justify-center shrink-0 my-3 relative" style="height: calc(50vh); max-height: 480px;">
+        <div id="game-container" class="relative h-full aspect-[17/24] bg-black rounded-sm overflow-hidden border-[3px] border-slate-700 shadow-2xl shadow-indigo-900/20">
+            <canvas id="tetris" class="h-full w-full block cursor-pointer"></canvas>
+            
+            <div id="overlay" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center gap-4 transition-opacity duration-300 z-30">
+                <h2 id="overlay-text" class="text-2xl font-black text-red-500 hidden tracking-widest drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]">GAME OVER</h2>
+                <button id="start-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-lg shadow-[0_4px_0_rgb(67,56,202)] active:shadow-[0_0px_0_rgb(67,56,202)] active:translate-y-1 transition-all text-sm cursor-pointer uppercase tracking-wider">
+                    MULAI GAME
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <section class="w-full max-w-xs mx-auto flex flex-col gap-3 shrink-0 z-10 mt-1">
+        
+        <div class="grid grid-cols-3 gap-2 w-[160px] mx-auto md:hidden">
+            <div></div>
+            <button id="btn-up" class="bg-slate-800 border-b-4 border-slate-950 aspect-square rounded-xl flex items-center justify-center font-bold text-xl active:bg-indigo-600 active:border-b-0 active:translate-y-1 transition text-slate-300">↻</button>
+            <div></div>
+            
+            <button id="btn-left" class="bg-slate-800 border-b-4 border-slate-950 aspect-square rounded-xl flex items-center justify-center font-bold text-xl active:bg-indigo-600 active:border-b-0 active:translate-y-1 transition text-slate-300">←</button>
+            <button id="btn-down" class="bg-slate-800 border-b-4 border-slate-950 aspect-square rounded-xl flex items-center justify-center font-bold text-xl active:bg-indigo-600 active:border-b-0 active:translate-y-1 transition text-slate-300">↓</button>
+            <button id="btn-right" class="bg-slate-800 border-b-4 border-slate-950 aspect-square rounded-xl flex items-center justify-center font-bold text-xl active:bg-indigo-600 active:border-b-0 active:translate-y-1 transition text-slate-300">→</button>
+        </div>
+
+        <div class="hidden md:flex justify-center gap-5 bg-slate-800/50 p-2 rounded-xl border border-slate-700/50 text-[11px] text-slate-400 w-full mx-auto font-mono">
+            <div><kbd class="bg-slate-700 px-1.5 py-0.5 rounded shadow text-white border-b-2 border-slate-900">←</kbd> <kbd class="bg-slate-700 px-1.5 py-0.5 rounded shadow text-white border-b-2 border-slate-900">→</kbd> Geser</div>
+            <div><kbd class="bg-slate-700 px-1.5 py-0.5 rounded shadow text-white border-b-2 border-slate-900">↑</kbd> Putar</div>
+            <div><kbd class="bg-slate-700 px-1.5 py-0.5 rounded shadow text-white border-b-2 border-slate-900">↓</kbd> Turun</div>
+        </div>
+
+        <div class="text-center border-t border-slate-800/80 pt-3 w-full">
+            <p class="text-[10px] text-amber-400/90 font-medium mb-1 md:hidden tracking-wide animate-pulse">
+                💡 Tap layar game untuk memutar | Tahan untuk turun cepat
+            </p>
+            <div class="text-[11px] text-slate-500 tracking-wide mt-1">
+                Developed by: <span class="text-indigo-400 font-bold font-mono">Filza Buana Putra</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const canvas = document.getElementById('tetris');
+        const context = canvas.getContext('2d');
+
+        // Resolusi Area: 12 Kolom Game + 5 Kolom Info = Total 17 Kolom Lebar
+        const COLS = 12;
+        const ROWS = 24;
+        const SIDE_PANEL_COLS = 5;
+        const BLOCK_SIZE = 20;
+
+        canvas.width = (COLS + SIDE_PANEL_COLS) * BLOCK_SIZE; 
+        canvas.height = ROWS * BLOCK_SIZE; 
+        context.scale(BLOCK_SIZE, BLOCK_SIZE);
+
+        // --- SISTEM AUDIO "MODE PRO" (TEKSTUR SUARA DMG-01 GAMEBOY) ---
+        let audioCtx = null;
+        let audioNextNoteTime = 0.0;
+        let musicScheduleTimer = null;
+        let currentStepIndex = 0; 
+
+        // Tempo Asli: 150 BPM
+        const BPM = 150;
+        const STEP_DURATION = (60 / BPM) * 0.5; // 1 Langkah = 1/8 Ketukan (200ms)
+
+        // Kamus Frekuensi Nada
+        const _ = 0; 
+        const E5 = 659, B4 = 494, C5 = 523, D5 = 587, A4 = 440, F5 = 698, A5 = 880, G5 = 784;
+        const E4 = 330, F4 = 349, Gs4 = 415; 
+        const A2 = 110, A3 = 220, E3 = 165, E2 = 82, B2 = 123, D3 = 147, D4 = 294;
+
+        // CHANNEL 1: LEAD MELODY (64 Steps Korobeiniki)
+        const melodyGrid = [
+            E5, _, B4, C5, D5, _, C5, B4,  A4, _, A4, C5, E5, _, D5, C5,
+            B4, _, _,  C5, D5, _, E5, _,   C5, _, A4, _, A4, _, _,  _,
+            D5, _, _,  F5, A5, _, G5, F5,  E5, _, _,  C5, E5, _, D5, C5,
+            B4, _, B4, C5, D5, _, E5, _,   C5, _, A4, _, A4, _, _,  _
+        ];
+
+        // CHANNEL 2: CHANK HARMONY (Ditekan Staccato di off-beats untuk swing polka)
+        const harmonyGrid = [
+            _, E4, _, E4, _, E4, _, E4,  _, E4, _, E4, _, E4, _, E4,
+            _, Gs4,_, Gs4,_, Gs4,_, Gs4, _, E4, _, E4, _, _,  _, _,
+            _, F4, _, F4, _, F4, _, F4,  _, E4, _, E4, _, E4, _, E4,
+            _, Gs4,_, Gs4,_, Gs4,_, Gs4, _, E4, _, E4, _, _,  _, _
+        ];
+
+        // CHANNEL 3: THE BOUNCY BASS (Pola Lompat Oktaf Khas Rusia)
+        const bassGrid = [
+            A2, A3, E3, A3, A2, A3, E3, A3,  A2, A3, E3, A3, A2, A3, E3, A3,
+            E2, E3, B2, E3, E2, E3, B2, E3,  A2, A3, E3, A3, A2, A3, A2, _,
+            D3, D4, A3, D4, D3, D4, A3, D4,  A2, A3, E3, A3, A2, A3, E3, A3,
+            E2, E3, B2, E3, E2, E3, B2, E3,  A2, A3, E3, A3, A2, A3, A2, _
+        ];
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Fungsi Simulasi Suara Drum 8-Bit (Channel 4 Noise)
+        function playRetroDrumPattern(time, step) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const localStep = step % 8;
+            
+            if (localStep === 0 || localStep === 4) {
+                // KICK: Frekuensi menurun sangat cepat (Envelope Pitch Sweep)
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(200, time);
+                osc.frequency.exponentialRampToValueAtTime(30, time + 0.08);
+                gain.gain.setValueAtTime(0.06, time);
+                gain.gain.exponentialRampToValueAtTime(0.00001, time + 0.08);
+            } else if (localStep === 2 || localStep === 6) {
+                // SNARE: Sawtooth garing berfrekuensi tinggi
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(6000, time);
+                osc.frequency.linearRampToValueAtTime(800, time + 0.04);
+                gain.gain.setValueAtTime(0.015, time);
+                gain.gain.exponentialRampToValueAtTime(0.00001, time + 0.04);
+            } else {
+                // HI-HAT: Desis pendek di setiap sela ketukan
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(10000, time);
+                gain.gain.setValueAtTime(0.003, time);
+                gain.gain.exponentialRampToValueAtTime(0.00001, time + 0.02);
+            }
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(time);
+            osc.stop(time + 0.09);
+        }
+
+        function scheduleStep(step, time) {
+            const mFreq = melodyGrid[step];
+            const hFreq = harmonyGrid[step];
+            const bFreq = bassGrid[step];
+            const isTied = (step + 1 < melodyGrid.length && melodyGrid[step + 1] === mFreq);
+
+            // 1. MELODI UTAMA
+            if (mFreq > 0) {
+                const oscMelody = audioCtx.createOscillator();
+                const gainMelody = audioCtx.createGain();
+                oscMelody.type = 'square';
+                oscMelody.frequency.setValueAtTime(mFreq, time);
+                
+                gainMelody.gain.setValueAtTime(0.012, time);
+                const decayTime = isTied ? STEP_DURATION : (STEP_DURATION - 0.025);
+                gainMelody.gain.setValueAtTime(0.012, time + decayTime);
+                gainMelody.gain.exponentialRampToValueAtTime(0.00001, time + STEP_DURATION);
+                
+                oscMelody.connect(gainMelody);
+                gainMelody.connect(audioCtx.destination);
+                oscMelody.start(time);
+                oscMelody.stop(time + STEP_DURATION);
+            }
+
+            // 2. HARMONI (Super Pendek / Staccato)
+            if (hFreq > 0) {
+                const oscHarm = audioCtx.createOscillator();
+                const gainHarm = audioCtx.createGain();
+                oscHarm.type = 'square';
+                oscHarm.frequency.setValueAtTime(hFreq, time);
+                
+                gainHarm.gain.setValueAtTime(0.004, time);
+                gainHarm.gain.exponentialRampToValueAtTime(0.00001, time + 0.05);
+                
+                oscHarm.connect(gainHarm);
+                gainHarm.connect(audioCtx.destination);
+                oscHarm.start(time);
+                oscHarm.stop(time + 0.06);
+            }
+
+            // 3. THE "MODE PRO" BASSLINE (Dual-Oscillator untuk sensasi ngebass tebal)
+            if (bFreq > 0) {
+                // Body bass (Triangle)
+                const oscBassTri = audioCtx.createOscillator();
+                const gainBassTri = audioCtx.createGain();
+                oscBassTri.type = 'triangle';
+                oscBassTri.frequency.setValueAtTime(bFreq, time);
+                
+                gainBassTri.gain.setValueAtTime(0.06, time);
+                gainBassTri.gain.exponentialRampToValueAtTime(0.00001, time + STEP_DURATION - 0.01);
+                
+                // Tekstur kasar/gritty ala Gameboy (Square dengan volume kecil dilapis)
+                const oscBassSq = audioCtx.createOscillator();
+                const gainBassSq = audioCtx.createGain();
+                oscBassSq.type = 'square';
+                oscBassSq.frequency.setValueAtTime(bFreq, time);
+                
+                gainBassSq.gain.setValueAtTime(0.01, time);
+                gainBassSq.gain.exponentialRampToValueAtTime(0.00001, time + STEP_DURATION - 0.01);
+                
+                oscBassTri.connect(gainBassTri);
+                gainBassTri.connect(audioCtx.destination);
+                oscBassSq.connect(gainBassSq);
+                gainBassSq.connect(audioCtx.destination);
+                
+                oscBassTri.start(time);
+                oscBassSq.start(time);
+                oscBassTri.stop(time + STEP_DURATION);
+                oscBassSq.stop(time + STEP_DURATION);
+            }
+
+            // 4. DRUMS
+            playRetroDrumPattern(time, step);
+        }
+
+        function scheduler() {
+            if (!gameRunning) return;
+            const dynamicBPM = BPM + (currentLevel - 1) * 6; // Tempo ngebut pelan-pelan saat naik level
+            const currentStepDuration = (60 / dynamicBPM) * 0.5; 
+
+            while (audioNextNoteTime < audioCtx.currentTime + 0.12) {
+                scheduleStep(currentStepIndex, audioNextNoteTime);
+                audioNextNoteTime += currentStepDuration;
+                currentStepIndex = (currentStepIndex + 1) % melodyGrid.length;
+            }
+            musicScheduleTimer = setTimeout(scheduler, 25);
+        }
+
+        function playMusicLoop() {
+            if (musicScheduleTimer) clearTimeout(musicScheduleTimer);
+            if (!audioCtx) initAudio();
+            currentStepIndex = 0;
+            audioNextNoteTime = audioCtx.currentTime + 0.05;
+            scheduler();
+        }
+
+        function stopMusicLoop() {
+            clearTimeout(musicScheduleTimer);
+            musicScheduleTimer = null;
+        }
+
+        function playScoreSfx() {
+            if (!audioCtx || audioCtx.state === 'suspended') return;
+            const now = audioCtx.currentTime;
+            [880, 1318.51].forEach((freq, idx) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(freq, now + (idx * 0.05));
+                gain.gain.setValueAtTime(0.015, now + (idx * 0.05));
+                gain.gain.exponentialRampToValueAtTime(0.00001, now + (idx * 0.05) + 0.12);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now + (idx * 0.05));
+                osc.stop(now + (idx * 0.05) + 0.12);
+            });
+        }
+
+        // --- SISTEM GAME TETRIS ---
+        let highScore = localStorage.getItem('tetris_high_score') || 0;
+        document.getElementById('high-score').innerText = highScore;
+
+        function checkHighScore() {
+            if (player.score > highScore) {
+                highScore = player.score;
+                localStorage.setItem('tetris_high_score', highScore);
+                document.getElementById('high-score').innerText = highScore;
+            }
+        }
+
+        let currentLinesCleared = 0; 
+        let currentLevel = 1;        
+        let dropCounter = 0;
+        let baseDropInterval = 1000; 
+        let dropInterval = 1000;
+        let lastTime = 0;
+
+        function calculateSpeed(level) {
+            return Math.max(80, baseDropInterval - (level - 1) * 90); 
+        }
+
+        function updateScoreVisuals() {
+            document.getElementById('score').innerText = player.score;
+            document.getElementById('level').innerText = currentLevel;
+            document.getElementById('lines').innerText = currentLinesCleared;
+            checkHighScore();
+        }
+
+        function arenaSweep() {
+            let rowCount = 0;
+            let swept = false;
+            
+            outer: for (let y = arena.length - 1; y >= 0; --y) {
+                for (let x = 0; x < arena[y].length; ++x) {
+                    if (arena[y][x] === 0) { continue outer; }
+                }
+                const row = arena.splice(y, 1)[0].fill(0);
+                arena.unshift(row);
+                ++y;
+                rowCount++;
+                swept = true;
+            }
+            
+            if (swept) {
+                currentLinesCleared += rowCount;
+                const scoreTable = [0, 40, 100, 300, 1200]; // Sistem skor asli Tetris
+                player.score += scoreTable[rowCount] * currentLevel;
+                
+                const newLevel = Math.floor(currentLinesCleared / 10) + 1;
+                if (newLevel > currentLevel) {
+                    currentLevel = newLevel;
+                    dropInterval = calculateSpeed(currentLevel);
+                }
+                
+                playScoreSfx();
+                updateScoreVisuals();
+            }
+        }
+
+        // MEMPERBAIKI BUG "GAME OVER" TERLALU CEPAT: 
+        // Logika `collide` sekarang mengabaikan posisi Y di bawah 0 (di atas layar), 
+        // sehingga balok dapat bermanuver walau bagian atasnya belum masuk sepenuhnya.
+        function collide(arena, player) {
+            const m = player.matrix;
+            const o = player.pos;
+            for (let y = 0; y < m.length; ++y) {
+                for (let x = 0; x < m[y].length; ++x) {
+                    if (m[y][x] !== 0) {
+                        let arenaY = y + o.y;
+                        let arenaX = x + o.x;
+                        
+                        // Abaikan batas atas (Boleh melewati atap layar asalkan tidak tembus dinding)
+                        if (arenaY < 0) {
+                            if (arenaX < 0 || arenaX >= COLS) return true;
+                            continue;
+                        }
+                        
+                        // Deteksi menabrak dinding bawah atau samping
+                        if (arenaY >= ROWS || arenaX < 0 || arenaX >= COLS) return true;
+                        
+                        // Deteksi menabrak tumpukan balok di bawahnya
+                        if (arena[arenaY][arenaX] !== 0) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function createMatrix(w, h) {
+            const matrix = [];
+            while (h--) { matrix.push(new Array(w).fill(0)); }
+            return matrix;
+        }
+
+        function createPiece(type) {
+            // Standar bentuk balok yang aman ditampung di Y=0
+            if (type === 'T') return [[0,1,0],[1,1,1],[0,0,0]];
+            if (type === 'O') return [[2,2],[2,2]];
+            if (type === 'L') return [[0,0,3],[3,3,3],[0,0,0]];
+            if (type === 'J') return [[4,0,0],[4,4,4],[0,0,0]];
+            if (type === 'I') return [[0,0,0,0],[5,5,5,5],[0,0,0,0],[0,0,0,0]];
+            if (type === 'S') return [[0,6,6],[6,6,0],[0,0,0]];
+            if (type === 'Z') return [[7,7,0],[0,7,7],[0,0,0]];
+        }
+
+        const colors = [
+            null, '#a855f7', '#eab308', '#f97316', '#3b82f6', '#06b6d4', '#22c55e', '#ef4444'
+        ];
+
+        function drawMatrix(matrix, offset) {
+            if (!matrix) return;
+            matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        context.fillStyle = colors[value];
+                        context.fillRect(x + offset.x, y + offset.y, 1, 1);
+                        // Bevel List Mulus untuk baloknya
+                        context.strokeStyle = 'rgba(0,0,0,0.5)';
+                        context.lineWidth = 0.1;
+                        context.strokeRect(x + offset.x, y + offset.y, 1, 1);
+                    }
+                });
+            });
+        }
+
+        function drawSidePanel() {
+            context.fillStyle = '#1e293b';
+            context.fillRect(COLS, 0, 0.1, ROWS); // Garis pembatas
+
+            context.fillStyle = '#6366f1';
+            context.font = '1.2px monospace';
+            context.fillText('NEXT', COLS + 0.8, 2);
+
+            context.strokeStyle = '#334155';
+            context.lineWidth = 0.05;
+            context.strokeRect(COLS + 0.5, 3, 4, 4);
+
+            if (nextPieceMatrix) {
+                const offsetX = COLS + 0.5 + (4 - nextPieceMatrix[0].length) / 2;
+                const offsetY = 3 + (4 - nextPieceMatrix.length) / 2;
+                drawMatrix(nextPieceMatrix, {x: offsetX, y: offsetY});
+            }
+        }
+
+        function draw() {
+            context.fillStyle = '#050505'; // Background board gelap
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawMatrix(arena, {x: 0, y: 0});
+            if (player.matrix) {
+                drawMatrix(player.matrix, player.pos);
+            }
+            drawSidePanel();
+        }
+
+        function merge(arena, player) {
+            player.matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    // Hanya masukkan balok yang ada di dalam batas layar (y >= 0)
+                    if (value !== 0 && y + player.pos.y >= 0) { 
+                        arena[y + player.pos.y][x + player.pos.x] = value; 
+                    }
+                });
+            });
+        }
+
+        function update(time = 0) {
+            if (!gameRunning) return;
+            const deltaTime = time - lastTime;
+            lastTime = time;
+            dropCounter += deltaTime;
+            if (dropCounter > dropInterval) { playerDrop(); }
+            draw();
+            requestAnimationFrame(update);
+        }
+
+        function playerDrop() {
+            player.pos.y++;
+            if (collide(arena, player)) {
+                player.pos.y--; // Naikkan lagi ke posisi aman
+                merge(arena, player); // Kunci balok
+                playerReset(); // Spawn balok baru
+                arenaSweep(); // Cek jika ada baris yang hancur
+            }
+            dropCounter = 0;
+        }
+
+        function playerMove(dir) {
+            player.pos.x += dir;
+            if (collide(arena, player)) { player.pos.x -= dir; }
+        }
+
+        let nextPieceMatrix = null;
+        const pieces = 'ILJOTSZ';
+
+        function playerReset() {
+            if (!nextPieceMatrix) {
+                nextPieceMatrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+            }
+
+            player.matrix = nextPieceMatrix;
+            nextPieceMatrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+
+            player.pos.y = 0;
+            player.pos.x = (COLS / 2 | 0) - (player.matrix[0].length / 2 | 0);
+            
+            // Logika Game Over Murni: Jika saat baru spawn dan posisi sudah tertabrak balok yang menumpuk.
+            if (collide(arena, player)) { 
+                gameOver(); 
+            }
+        }
+
+        function playerRotate(dir) {
+            if (!player.matrix) return;
+            const pos = player.pos.x;
+            let offset = 1;
+            rotate(player.matrix, dir);
+            // Wall-kick logic (Mendorong balok jika saat diputar nabrak tembok)
+            while (collide(arena, player)) {
+                player.pos.x += offset;
+                offset = -(offset + (offset > 0 ? 1 : -1));
+                if (offset > player.matrix[0].length) {
+                    rotate(player.matrix, -dir); // Batal putar jika tidak ada ruang
+                    player.pos.x = pos;
+                    return;
+                }
+            }
+        }
+
+        function rotate(matrix, dir) {
+            for (let y = 0; y < matrix.length; ++y) {
+                for (let x = 0; x < y; ++x) {
+                    [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
+                }
+            }
+            if (dir > 0) { matrix.forEach(row => row.reverse()); } 
+            else { matrix.reverse(); }
+        }
+
+        const arena = createMatrix(COLS, ROWS);
+        const player = { pos: {x: 0, y: 0}, matrix: null, score: 0 };
+        let gameRunning = false;
+
+        const overlay = document.getElementById('overlay');
+        const overlayText = document.getElementById('overlay-text');
+        const startBtn = document.getElementById('start-btn');
+
+        function handleStartAction(e) {
+            if (e) e.preventDefault();
+            initAudio();
+
+            arena.forEach(row => row.fill(0));
+            player.score = 0;
+            currentLinesCleared = 0;
+            currentLevel = 1;
+            dropInterval = baseDropInterval;
+            
+            updateScoreVisuals();
+            nextPieceMatrix = null; 
+            playerReset();
+            gameRunning = true;
+            
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            lastTime = performance.now();
+            
+            currentStepIndex = 0; 
+            playMusicLoop();
+            update();
+        }
+
+        startBtn.addEventListener('click', handleStartAction);
+        startBtn.addEventListener('touchstart', handleStartAction, { passive: false });
+
+        function gameOver() {
+            gameRunning = false;
+            stopMusicLoop();
+            checkHighScore();
+            overlayText.classList.remove('hidden');
+            startBtn.innerText = 'MAIN LAGI';
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        // --- KONTROL KEYBOARD DESKTOP ---
+        document.addEventListener('keydown', event => {
+            if (!gameRunning) return;
+            initAudio();
+            if (event.keyCode === 37) playerMove(-1);
+            if (event.keyCode === 39) playerMove(1);
+            if (event.keyCode === 40) playerDrop();
+            if (event.keyCode === 38) playerRotate(1);
+        });
+
+        // --- KONTROL TOMBOL HP ---
+        let buttonInterval = null;
+
+        function startButtonLoop(action, delay = 100) {
+            if (!gameRunning) return;
+            initAudio();
+            action();
+            clearInterval(buttonInterval);
+            buttonInterval = setInterval(() => {
+                if (gameRunning) action();
+            }, delay);
+        }
+
+        function stopButtonLoop() {
+            clearInterval(buttonInterval);
+        }
+
+        const setupHoldButton = (elementId, action, delay) => {
+            const btn = document.getElementById(elementId);
+            if (!btn) return;
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startButtonLoop(action, delay);
+            }, { passive: false });
+
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopButtonLoop();
+            }, { passive: false });
+        };
+
+        setupHoldButton('btn-left', () => playerMove(-1), 100);
+        setupHoldButton('btn-right', () => playerMove(1), 100);
+        setupHoldButton('btn-down', () => playerDrop(), 50);
+
+        const btnUp = document.getElementById('btn-up');
+        if (btnUp) {
+            btnUp.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                initAudio();
+                if (gameRunning) playerRotate(1);
+            }, { passive: false });
+        }
+
+        // --- KONTROL TAP & TAHAN DI LAYAR (MOBILE PLAY) ---
+        let touchStartTime = 0;
+        let holdTimeout = null;
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!gameRunning) return;
+            initAudio();
+            touchStartTime = performance.now();
+            holdTimeout = setTimeout(() => {
+                dropInterval = 40; // Hard drop (Turun Cepat) saat ditahan
+            }, 180);
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (!gameRunning) return;
+            clearTimeout(holdTimeout);
+            
+            // Kembalikan ke kecepatan normal sesuai levelnya
+            dropInterval = calculateSpeed(currentLevel);
+            
+            // Jika disentuh sangat singkat (tap), maka putar baloknya
+            const touchDuration = performance.now() - touchStartTime;
+            if (touchDuration < 180) {
+                playerRotate(1);
+            }
+        }, { passive: false });
+
+        draw(); // Render layar awal
+    </script>
+</body>
+</html>

@@ -12,7 +12,8 @@ import {
   ExternalLink,
   Terminal,
   Sun,
-  Moon
+  Moon,
+  Gamepad2
 } from '@lucide/vue'
 
 const isMobileMenuOpen = ref(false)
@@ -238,6 +239,14 @@ onMounted(() => {
               <span>Projects</span>
             </RouterLink>
 
+            <RouterLink to="/games" class="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-xl transition-all duration-300"
+                        :class="$route.path.startsWith('/games') 
+                          ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shadow-sm' 
+                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 border border-transparent'">
+              <Gamepad2 class="w-3.5 h-3.5 text-indigo-500" />
+              <span>Games</span>
+            </RouterLink>
+
             <a href="https://matematika.filzabuana.id" target="_blank" rel="noopener noreferrer"
                class="flex items-center gap-1.5 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5 rounded-xl border border-transparent text-xs font-medium transition-all duration-300">
               <BookOpen class="w-3.5 h-3.5 text-sky-500" />
@@ -308,6 +317,15 @@ onMounted(() => {
                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5'">
             <Briefcase class="w-4 h-4" />
             <span>Projects</span>
+          </RouterLink>
+
+          <RouterLink to="/games" @click="isMobileMenuOpen = false"
+                      class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
+                      :class="$route.path.startsWith('/games')
+                        ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400' 
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-500/5'">
+            <Gamepad2 class="w-4 h-4 text-indigo-500" />
+            <span>Games</span>
           </RouterLink>
 
           <a href="https://matematika.filzabuana.id" target="_blank" rel="noopener noreferrer"

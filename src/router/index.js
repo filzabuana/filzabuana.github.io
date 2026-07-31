@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import PortfolioView from '../views/PortfolioView.vue'
+import GamesView from '../views/GamesView.vue'
+import TetrisView from '../views/games/TetrisView.vue'
 
 const routes = [
   {
@@ -14,6 +16,18 @@ const routes = [
     name: 'Projects',
     component: PortfolioView,
     meta: { title: 'Projects | Filza Buana Putra' }
+  },
+  {
+    path: '/games',
+    name: 'Games',
+    component: GamesView,
+    meta: { title: 'Games Hub | Filza Buana Putra' }
+  },
+  {
+    path: '/games/tetris',
+    name: 'TetrisGame',
+    component: TetrisView,
+    meta: { title: 'JS Tetris | Filza Buana Putra' }
   },
   {
     path: '/:pathMatch(.*)*',
