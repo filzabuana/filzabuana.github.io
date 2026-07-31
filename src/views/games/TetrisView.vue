@@ -5,7 +5,17 @@ import { ArrowLeft, Play, RotateCcw, Volume2, VolumeX, Gamepad2 } from '@lucide/
 
 const canvasRef = ref(null)
 const score = ref(0)
-const highScore = ref(localStorage.getItem('tetris_high_score') || 0)
+
+const getStoredHighScore = () => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('tetris_high_score') || 0
+    }
+  } catch (e) {}
+  return 0
+}
+
+const highScore = ref(getStoredHighScore())
 const level = ref(1)
 const linesCleared = ref(0)
 
@@ -258,7 +268,11 @@ function calculateSpeed(lvl) {
 function checkHighScore() {
   if (score.value > highScore.value) {
     highScore.value = score.value
-    localStorage.setItem('tetris_high_score', highScore.value)
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('tetris_high_score', highScore.value)
+      }
+    } catch (e) {}
   }
 }
 
@@ -540,39 +554,39 @@ onUnmounted(() => {
   <div class="max-w-4xl mx-auto px-4 py-6 sm:py-10">
     <!-- Back to Games Navigation Header -->
     <div class="flex items-center justify-between mb-6">
-      <RouterLink to="/games" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-slate-300 hover:text-white text-xs font-medium transition-all">
+      <RouterLink to="/games" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/80 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-medium transition-all shadow-sm">
         <ArrowLeft class="w-4 h-4" />
         <span>Back to Games</span>
       </RouterLink>
 
-      <button @click="toggleAudio" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-xs font-medium text-slate-300 hover:text-white transition-all">
-        <Volume2 v-if="!isAudioMuted" class="w-4 h-4 text-emerald-400" />
-        <VolumeX v-else class="w-4 h-4 text-rose-400" />
+      <button @click="toggleAudio" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/80 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm">
+        <Volume2 v-if="!isAudioMuted" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+        <VolumeX v-else class="w-4 h-4 text-rose-600 dark:text-rose-400" />
         <span>{{ isAudioMuted ? 'Mute' : '8-Bit Audio' }}</span>
       </button>
     </div>
 
     <!-- Main Game Card Container -->
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden flex flex-col items-center">
+    <div class="bg-white/80 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden flex flex-col items-center backdrop-blur-md">
       
       <!-- Title & Live Stats Header -->
       <header class="text-center w-full mb-4">
         <div class="flex items-center justify-center gap-2 mb-1">
-          <Gamepad2 class="w-5 h-5 text-indigo-400" />
-          <h1 class="text-xl sm:text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400 uppercase">JS TETRIS</h1>
+          <Gamepad2 class="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+          <h1 class="text-xl sm:text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-600 dark:from-indigo-400 dark:via-sky-400 dark:to-emerald-400 uppercase">JS TETRIS</h1>
         </div>
         
-        <div class="flex flex-wrap justify-center gap-3 text-xs font-mono bg-slate-950/80 py-2 px-5 rounded-2xl border border-slate-800 w-max mx-auto shadow-inner">
-          <div class="text-emerald-400">SCORE: <span class="font-bold text-white">{{ score }}</span></div>
-          <div class="text-pink-400">HIGH SCORE: <span class="font-bold text-white">{{ highScore }}</span></div>
-          <div class="text-indigo-400">LEVEL: <span class="font-bold text-white">{{ level }}</span></div>
-          <div class="text-amber-400">LINES: <span class="font-bold text-white">{{ linesCleared }}</span></div>
+        <div class="flex flex-wrap justify-center gap-3 text-xs font-mono bg-slate-100/90 dark:bg-slate-950/80 py-2 px-5 rounded-2xl border border-slate-200 dark:border-slate-800 w-max mx-auto shadow-inner">
+          <div class="text-emerald-600 dark:text-emerald-400">SCORE: <span class="font-bold text-slate-900 dark:text-white">{{ score }}</span></div>
+          <div class="text-pink-600 dark:text-pink-400">HIGH SCORE: <span class="font-bold text-slate-900 dark:text-white">{{ highScore }}</span></div>
+          <div class="text-indigo-600 dark:text-indigo-400">LEVEL: <span class="font-bold text-slate-900 dark:text-white">{{ level }}</span></div>
+          <div class="text-amber-600 dark:text-amber-400">LINES: <span class="font-bold text-slate-900 dark:text-white">{{ linesCleared }}</span></div>
         </div>
       </header>
 
       <!-- Game Stage Canvas & Overlays -->
       <main class="w-full flex justify-center relative my-2" style="height: 52vh; max-height: 480px;">
-        <div class="relative h-full aspect-[17/24] bg-slate-950 rounded-xl overflow-hidden border-4 border-slate-800 shadow-2xl">
+        <div class="relative h-full aspect-[17/24] bg-slate-950 rounded-xl overflow-hidden border-4 border-slate-300 dark:border-slate-800 shadow-2xl">
           <!-- Retro CRT scanlines -->
           <div class="absolute inset-0 pointer-events-none z-20 opacity-30 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.3)_50%)] bg-[length:100%_4px]"></div>
           
@@ -605,30 +619,30 @@ onUnmounted(() => {
         <div class="grid grid-cols-3 gap-2.5 w-[180px] mx-auto md:hidden">
           <div></div>
           <button @touchstart.prevent="playerRotate(1)" 
-                  class="bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-200">↻</button>
+                  class="bg-slate-200 dark:bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-800 dark:text-slate-200">↻</button>
           <div></div>
           
           <button @touchstart.prevent="startButtonLoop(() => playerMove(-1), 100)" 
                   @touchend.prevent="stopButtonLoop"
-                  class="bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-200">←</button>
+                  class="bg-slate-200 dark:bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-800 dark:text-slate-200">←</button>
           
           <button @touchstart.prevent="startButtonLoop(() => playerDrop(), 50)" 
                   @touchend.prevent="stopButtonLoop"
-                  class="bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-200">↓</button>
+                  class="bg-slate-200 dark:bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-800 dark:text-slate-200">↓</button>
           
           <button @touchstart.prevent="startButtonLoop(() => playerMove(1), 100)" 
                   @touchend.prevent="stopButtonLoop"
-                  class="bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-200">→</button>
+                  class="bg-slate-200 dark:bg-slate-800 active:bg-indigo-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 h-12 rounded-xl flex items-center justify-center font-bold text-xl text-slate-800 dark:text-slate-200">→</button>
         </div>
 
         <!-- Desktop Controls Guide -->
-        <div class="hidden md:flex justify-center gap-6 bg-slate-950/60 p-3 rounded-2xl border border-slate-800/80 text-xs text-slate-400 font-mono">
-          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">←</kbd> <kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">→</kbd> Move</div>
-          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">↑</kbd> Rotate</div>
-          <div><kbd class="bg-slate-800 px-2 py-1 rounded text-white border-b-2 border-slate-950">↓</kbd> Soft Drop</div>
+        <div class="hidden md:flex justify-center gap-6 bg-slate-100/90 dark:bg-slate-950/60 p-3 rounded-2xl border border-slate-200 dark:border-slate-800/80 text-xs text-slate-600 dark:text-slate-400 font-mono shadow-sm">
+          <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">←</kbd> <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">→</kbd> Move</div>
+          <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">↑</kbd> Rotate</div>
+          <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-950">↓</kbd> Soft Drop</div>
         </div>
 
-        <p class="text-[11px] text-center text-amber-400/90 font-medium md:hidden animate-pulse">
+        <p class="text-[11px] text-center text-amber-600 dark:text-amber-400/90 font-medium md:hidden animate-pulse">
           💡 Tap screen to rotate | Hold to soft drop
         </p>
       </section>

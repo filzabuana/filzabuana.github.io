@@ -310,7 +310,7 @@ const getCategoryColor = (cat) => {
         </RouterLink>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center p-6 sm:p-8 rounded-3xl border border-indigo-500/20 bg-slate-900/60 dark:bg-slate-900/90 shadow-xl backdrop-blur-md">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-indigo-500/20 bg-white/80 dark:bg-slate-900/90 shadow-xl backdrop-blur-md transition-colors duration-300">
         <!-- Live Automated Tetris Preview Canvas -->
         <div class="lg:col-span-5 w-full">
           <TetrisPreview />
@@ -318,7 +318,7 @@ const getCategoryColor = (cat) => {
 
         <!-- Section Info & Direct Play Button -->
         <div class="lg:col-span-7 space-y-4">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 dark:bg-indigo-500/20 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-semibold">
             <span>Featured &bull; JS Tetris Retro</span>
           </div>
 
@@ -338,7 +338,7 @@ const getCategoryColor = (cat) => {
             </RouterLink>
 
             <RouterLink to="/games"
-                        class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-slate-300 text-xs font-medium transition-all">
+                        class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-xs font-medium transition-all shadow-sm">
               <span>Open Arcade Catalog</span>
             </RouterLink>
           </div>
