@@ -1,0 +1,68 @@
+[
+  {
+    "id": "lab-management",
+    "title": "Laboratory Management System",
+    "description": "Comprehensive web platform for managing computer laboratory operations, equipment inventory, schedule bookings, and resource allocation.",
+    "category": "Web Application",
+    "tags": ["Laravel", "Vue 3", "Inertia.js", "Tailwind CSS", "MySQL"],
+    "github": "",
+    "demo": "https://resiskom.filzabuana.id/lab",
+    "is_featured": true,
+    "image": "/images/projects/inventaris-lab.png"
+  },
+  {
+    "id": "study-program-site",
+    "title": "Academic Study Program Portal",
+    "description": "Official department website providing academic announcements, curriculum information, faculty directory, and student resources.",
+    "category": "Web Application",
+    "tags": ["Laravel", "Vue 3", "Inertia.js", "Tailwind CSS", "MySQL", "Filament v4"],
+    "github": "",
+    "demo": "https://resiskom.filzabuana.id",
+    "is_featured": false,
+    "image": "/images/projects/study-program.png"
+  },
+  {
+    "id": "instagram-mockup",
+    "title": "Instagram Design & Preview Mockup Tool",
+    "description": "Interactive web tool to preview, design, and prototype Instagram content including Feed posts, Reels, and Stories.",
+    "category": "Utility Tools",
+    "tags": ["Laravel", "Vue 3", "Inertia.js", "Tailwind CSS", "MySQL", "Canvas API"],
+    "github": "",
+    "demo": "https://instagram.filzabuana.id",
+    "is_featured": false,
+    "image": "/images/projects/instagram-mockup.png"
+  },
+  {
+    "id": "room-equipment-inspection",
+    "title": "Bi-Weekly Equipment Inspection System",
+    "description": "Automated audit and tracking web system for bi-weekly inspections and status logging of room devices and lab hardware.",
+    "category": "Web Application",
+    "tags": ["Laravel", "Vue 3", "Inertia.js", "Tailwind CSS", "MySQL", "PDF Export"],
+    "github": "https://github.com/filzabuana/pengecekan-alat",
+    "demo": "https://pengecekan-alat.filzabuana.id",
+    "is_featured": false,
+    "image": "/images/projects/pengecekan-alat.png"
+  },
+  {
+    "id": "plp-peer-chat",
+    "title": "PLP Peer Chat Application",
+    "description": "Private real-time messaging application built for laboratory technicians to collaborate and coordinate daily operational tasks.",
+    "category": "Web Application",
+    "tags": ["Laravel", "Vue 3", "Inertia.js", "Tailwind CSS", "MySQL", "Laravel Reverb", "WebSockets"],
+    "github": "",
+    "demo": "https://chat.filzabuana.id",
+    "is_featured": false,
+    "image": "/images/projects/chat-app.png"
+  },
+  {
+    "id": "pdf-utilities",
+    "title": "Online PDF Utilities Suite",
+    "description": "Browser-based PDF tool suite for merging, splitting, rotating, and reorganizing PDF documents efficiently.",
+    "category": "Utility Tools",
+    "tags": ["Laravel", "Vue 3", "Inertia.js", "Tailwind CSS", "MySQL", "PDF.js"],
+    "github": "",
+    "demo": "https://pdf.filzabuana.id",
+    "is_featured": false,
+    "image": "/images/projects/pdf-tools.png"
+  }
+]
