@@ -497,6 +497,9 @@ function stopButtonLoop() {
 
 function handleKeyDown(e) {
   if (!gameRunning) return
+  if ([37, 38, 39, 40].includes(e.keyCode)) {
+    e.preventDefault()
+  }
   initAudio()
   if (e.keyCode === 37) playerMove(-1)
   if (e.keyCode === 39) playerMove(1)
@@ -576,7 +579,7 @@ onUnmounted(() => {
           <h1 class="text-xl sm:text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-600 dark:from-indigo-400 dark:via-sky-400 dark:to-emerald-400 uppercase">JS TETRIS</h1>
         </div>
         
-        <div class="flex flex-wrap justify-center gap-3 text-xs font-mono bg-slate-100/90 dark:bg-slate-950/80 py-2 px-5 rounded-2xl border border-slate-200 dark:border-slate-800 w-max mx-auto shadow-inner">
+        <div class="grid grid-cols-2 sm:flex sm:flex-row justify-center items-center gap-2 sm:gap-4 text-xs font-mono bg-slate-100/90 dark:bg-slate-950/80 py-2.5 px-4 sm:px-6 rounded-2xl border border-slate-200 dark:border-slate-800 w-full sm:w-max mx-auto shadow-inner text-center">
           <div class="text-emerald-600 dark:text-emerald-400">SCORE: <span class="font-bold text-slate-900 dark:text-white">{{ score }}</span></div>
           <div class="text-pink-600 dark:text-pink-400">HIGH SCORE: <span class="font-bold text-slate-900 dark:text-white">{{ highScore }}</span></div>
           <div class="text-indigo-600 dark:text-indigo-400">LEVEL: <span class="font-bold text-slate-900 dark:text-white">{{ level }}</span></div>
