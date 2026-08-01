@@ -343,7 +343,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto px-4 py-6 sm:py-10">
+  <div class="max-w-2xl mx-auto px-3 py-4 sm:py-10">
 
     <!-- Back / Audio Header -->
     <div class="flex items-center justify-between mb-6">
@@ -383,18 +383,17 @@ onUnmounted(() => {
 
       <!-- Canvas Stage -->
       <main class="w-full flex justify-center relative my-2">
-        <div class="relative bg-slate-950 rounded-xl overflow-hidden border-4 border-slate-300 dark:border-slate-800 shadow-2xl"
+        <div class="relative w-full max-w-[min(90vw,400px)] mx-auto bg-slate-950 rounded-xl overflow-hidden border-4 border-slate-300 dark:border-slate-800 shadow-2xl"
              style="box-shadow: 0 0 30px rgba(0,255,200,0.08);">
 
           <!-- CRT Scanlines -->
           <div class="absolute inset-0 pointer-events-none z-20 opacity-25 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.3)_50%)] bg-[length:100%_4px]"></div>
 
-          <!-- Game Canvas -->
+          <!-- Game Canvas: drawn at 400x400, CSS scales it to fit container -->
           <canvas ref="canvasRef"
                   @touchstart.passive="handleTouchStart"
                   @touchend.passive="handleTouchEnd"
-                  class="block touch-none select-none"
-                  style="max-width: min(90vw, 400px); height: auto; display: block;">
+                  class="block touch-none select-none w-full h-auto">
           </canvas>
 
           <!-- Start / Game Over Overlay -->
@@ -413,7 +412,7 @@ onUnmounted(() => {
               RETRO SNAKE
             </h2>
             <p v-if="!gameStarted" class="text-xs text-slate-400 font-mono text-center px-4">
-              Use Arrow Keys or Swipe to move.<br>Don't hit the walls or yourself!
+              Use Arrow Keys or the buttons below.<br>Don't hit the walls or yourself!
             </p>
 
             <button @click="startGame"
@@ -426,18 +425,63 @@ onUnmounted(() => {
         </div>
       </main>
 
-      <!-- Controls Guide -->
-      <section class="w-full max-w-sm mx-auto flex flex-col gap-3 mt-3">
-        <!-- Desktop Controls -->
+      <!-- Controls -->
+      <section class="w-full mt-4 flex flex-col gap-3">
+
+        <!-- Mobile D-Pad (hidden on desktop) -->
+        <div class="flex md:hidden items-center justify-between gap-3 px-1">
+
+          <!-- Left column: Up / Down -->
+          <div class="flex flex-col gap-2">
+            <button
+              @touchstart.prevent="() => { if(gameRunning) { nextDir = direction.x !== 0 ? { x: 0, y: -1 } : nextDir } }"
+              @click="() => { if(gameRunning) { if(direction.x !== 0) nextDir = { x: 0, y: -1 } } }"
+              class="w-14 h-14 rounded-xl bg-slate-200 dark:bg-slate-800 active:bg-emerald-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 flex items-center justify-center font-bold text-2xl text-slate-800 dark:text-slate-200 transition-all select-none">
+              ↑
+            </button>
+            <button
+              @touchstart.prevent="() => { if(gameRunning) { if(direction.x !== 0) nextDir = { x: 0, y: 1 } } }"
+              @click="() => { if(gameRunning) { if(direction.x !== 0) nextDir = { x: 0, y: 1 } } }"
+              class="w-14 h-14 rounded-xl bg-slate-200 dark:bg-slate-800 active:bg-emerald-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 flex items-center justify-center font-bold text-2xl text-slate-800 dark:text-slate-200 transition-all select-none">
+              ↓
+            </button>
+          </div>
+
+          <!-- Centre info -->
+          <div class="flex-1 text-center text-[10px] font-mono text-slate-400 dark:text-slate-500 leading-relaxed">
+            <div class="text-emerald-600 dark:text-emerald-400 font-bold text-xs">{{ score }}</div>
+            <div>score</div>
+            <div class="mt-1 text-indigo-500 dark:text-indigo-400 font-bold text-xs">Lv {{ level }}</div>
+          </div>
+
+          <!-- Right column: Left / Right -->
+          <div class="flex flex-col gap-2">
+            <div class="flex gap-2">
+              <button
+                @touchstart.prevent="() => { if(gameRunning) { if(direction.y !== 0) nextDir = { x: -1, y: 0 } } }"
+                @click="() => { if(gameRunning) { if(direction.y !== 0) nextDir = { x: -1, y: 0 } } }"
+                class="w-14 h-14 rounded-xl bg-slate-200 dark:bg-slate-800 active:bg-emerald-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 flex items-center justify-center font-bold text-2xl text-slate-800 dark:text-slate-200 transition-all select-none">
+                ←
+              </button>
+              <button
+                @touchstart.prevent="() => { if(gameRunning) { if(direction.y !== 0) nextDir = { x: 1, y: 0 } } }"
+                @click="() => { if(gameRunning) { if(direction.y !== 0) nextDir = { x: 1, y: 0 } } }"
+                class="w-14 h-14 rounded-xl bg-slate-200 dark:bg-slate-800 active:bg-emerald-600 border-b-4 border-slate-300 dark:border-slate-950 active:border-b-0 active:translate-y-1 flex items-center justify-center font-bold text-2xl text-slate-800 dark:text-slate-200 transition-all select-none">
+                →
+              </button>
+            </div>
+            <!-- Spacer to vertically align with the two left buttons -->
+            <div class="h-14"></div>
+          </div>
+
+        </div>
+
+        <!-- Desktop Controls Guide -->
         <div class="hidden md:flex justify-center gap-6 bg-slate-100/90 dark:bg-slate-950/60 p-3 rounded-2xl border border-slate-200 dark:border-slate-800/80 text-xs text-slate-600 dark:text-slate-400 font-mono shadow-sm">
           <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">←</kbd> <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">→</kbd> <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">↑</kbd> <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">↓</kbd> Move</div>
           <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">Enter</kbd> / <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">Space</kbd> Start</div>
         </div>
 
-        <!-- Mobile Hint -->
-        <p class="text-[11px] text-center text-emerald-600 dark:text-amber-400/90 font-medium md:hidden animate-pulse">
-          💡 Swipe to change direction
-        </p>
       </section>
 
     </div>
