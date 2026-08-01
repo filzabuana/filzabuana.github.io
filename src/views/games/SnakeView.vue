@@ -482,8 +482,8 @@ onUnmounted(() => {
           <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">Enter</kbd> / <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">Space</kbd> Start</div>
         </div>
 
-        <!-- Tip + Comment -->
-        <div class="flex flex-col gap-1 text-center text-[11px] font-mono mt-1">
+        <!-- Tip + Comment (mobile only) -->
+        <div class="flex md:hidden flex-col gap-1 text-center text-[11px] font-mono mt-1">
           <p class="text-emerald-600 dark:text-emerald-400/90 font-medium">💡 Swipe to change direction</p>
           <p class="text-slate-400 dark:text-slate-500 italic">Don't blame me for the pad placement!</p>
         </div>
