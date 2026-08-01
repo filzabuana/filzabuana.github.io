@@ -34,7 +34,7 @@ const SPEED_TABLE = [200, 175, 150, 130, 110, 95, 82, 70, 60, 52]
 
 // ─── Colours ─────────────────────────────────────────────────────────────────
 const COLOR_BG        = '#050d18'
-const COLOR_GRID      = 'rgba(0,255,200,0.04)'
+const COLOR_GRID      = 'rgba(0,255,200,0.10)'
 const COLOR_FOOD      = '#ff4d6d'
 const COLOR_FOOD_GLOW = 'rgba(255,77,109,0.55)'
 const COLOR_HEAD      = '#00ffe0'
@@ -140,7 +140,7 @@ function drawFrame(ts = 0) {
 
   // Grid lines
   ctx.strokeStyle = COLOR_GRID
-  ctx.lineWidth = 0.5
+  ctx.lineWidth = 1
   for (let c = 0; c <= COLS; c++) {
     ctx.beginPath(); ctx.moveTo(c * CELL, 0); ctx.lineTo(c * CELL, H); ctx.stroke()
   }
@@ -480,6 +480,12 @@ onUnmounted(() => {
         <div class="hidden md:flex justify-center gap-6 bg-slate-100/90 dark:bg-slate-950/60 p-3 rounded-2xl border border-slate-200 dark:border-slate-800/80 text-xs text-slate-600 dark:text-slate-400 font-mono shadow-sm">
           <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">←</kbd> <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">→</kbd> <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">↑</kbd> <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">↓</kbd> Move</div>
           <div><kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">Enter</kbd> / <kbd class="bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-white border-b-2 border-slate-300 dark:border-slate-950">Space</kbd> Start</div>
+        </div>
+
+        <!-- Tip + Comment -->
+        <div class="flex flex-col gap-1 text-center text-[11px] font-mono mt-1">
+          <p class="text-emerald-600 dark:text-emerald-400/90 font-medium">💡 Swipe to change direction</p>
+          <p class="text-slate-400 dark:text-slate-500 italic">Don't blame me for the pad placement!</p>
         </div>
 
       </section>
