@@ -49,7 +49,7 @@ const getCategoryColor = (cat) => {
       <div class="space-y-4 max-w-4xl">
         <p class="text-base sm:text-lg font-serif italic text-sky-600 dark:text-sky-400 font-light tracking-wide flex items-center gap-2">
           <Sparkles class="w-4 h-4 text-sky-500 inline" />
-          <span>Building functional, elegant & automated web applications</span>
+          <span>Helping build a better future</span>
         </p>
         
         <div class="space-y-2">
