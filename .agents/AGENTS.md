@@ -4,3 +4,4 @@
 2. **Ultra-Short Communication**: Keep all responses extremely concise, direct, and zero-fluff. Never waste tokens on long explanations, summaries, or apologies.
 3. **Show, Don't Tell**: Prefer ultra-minimal visual cards and direct product showcases over long paragraphs of text. Never write self-promotional text or repetitive "Saya..." intros.
 4. **English Language Requirement**: All web application UI content, text labels, descriptions, game text, and future project deliverables MUST be written in English.
+5. **No Auto-Push**: NEVER run `git push` unless the user explicitly asks for it. Local commits and builds are fine, but pushing to any remote is prohibited without a direct instruction.

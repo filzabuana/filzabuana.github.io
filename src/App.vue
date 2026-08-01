@@ -366,7 +366,7 @@ onMounted(() => {
           <span class="px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 text-[10px] font-semibold">v0.1.1</span>
         </div>
         <div class="flex items-center space-x-3 text-slate-500 dark:text-slate-400">
-          <span>FMIPA Tanjungpura University</span>
+          <span>FMIPA Universitas Tanjungpura</span>
           <span>•</span>
           <span>Programming & Computation Laboratory</span>
         </div>
