@@ -3,16 +3,20 @@ import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { Gamepad2, Play, Sparkles, Trophy, Flame } from '@lucide/vue'
 import TetrisPreview from '../components/TetrisPreview.vue'
+import SnakePreview from '../components/SnakePreview.vue'
 
 const tetrisHighScore = ref(0)
+const snakeHighScore  = ref(0)
 
 onMounted(() => {
   try {
     if (typeof window !== 'undefined' && window.localStorage) {
-      tetrisHighScore.value = localStorage.getItem('tetris_high_score') || 0
+      tetrisHighScore.value = parseInt(localStorage.getItem('tetris_high_score') || '0', 10)
+      snakeHighScore.value  = parseInt(localStorage.getItem('snake_high_score')  || '0', 10)
     }
   } catch (e) {
     tetrisHighScore.value = 0
+    snakeHighScore.value  = 0
   }
 })
 
@@ -26,15 +30,17 @@ const featuredGame = {
   tags: ['JavaScript', 'HTML5 Canvas', 'Web Audio Synth']
 }
 
+const snakeGame = {
+  id: 'snake',
+  title: 'Retro Snake 2D',
+  category: 'Arcade',
+  description: 'Neon cyberpunk snake with AI-smooth canvas rendering, 10 progressive speed levels, swipe gesture support, and Web Audio chiptune SFX.',
+  link: '/games/snake',
+  badge: 'New',
+  tags: ['JavaScript', 'HTML5 Canvas', 'Web Audio']
+}
+
 const upcomingGames = [
-  {
-    id: 'snake',
-    title: 'Retro Snake 2D',
-    category: 'Arcade',
-    description: 'Classic snake game with neon cyberpunk visuals and power-up mechanics.',
-    badge: 'Coming Soon',
-    icon: '🐍'
-  },
   {
     id: 'pong',
     title: 'Neon Pong Battle',
@@ -71,11 +77,16 @@ const upcomingGames = [
         </p>
       </div>
 
-      <div class="flex items-center gap-3 bg-slate-100/90 dark:bg-slate-950/60 px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs shadow-sm">
-        <Trophy class="w-5 h-5 text-amber-500 dark:text-amber-400" />
+      <div class="flex items-center gap-4 bg-slate-100/90 dark:bg-slate-950/60 px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs shadow-sm">
+        <Trophy class="w-5 h-5 text-amber-500 dark:text-amber-400 flex-shrink-0" />
         <div>
-          <div class="text-[10px] text-slate-500 uppercase tracking-wider">Tetris High Score</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-wider">Tetris Best</div>
           <div class="text-sm font-bold text-slate-900 dark:text-white">{{ tetrisHighScore }} Pts</div>
+        </div>
+        <div class="w-px h-8 bg-slate-300 dark:bg-slate-700"></div>
+        <div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-wider">Snake Best</div>
+          <div class="text-sm font-bold text-slate-900 dark:text-white">{{ snakeHighScore }} Pts</div>
         </div>
       </div>
     </header>
@@ -122,6 +133,56 @@ const upcomingGames = [
           <div class="pt-2">
             <RouterLink :to="featuredGame.link" 
                         class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-bold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-105 active:scale-95 transition-all text-sm uppercase tracking-wider">
+              <Play class="w-4 h-4 fill-white" />
+              <span>Play Now</span>
+            </RouterLink>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Snake Featured Section -->
+    <section class="mb-12">
+      <div class="flex items-center gap-2 mb-4">
+        <Flame class="w-5 h-5 text-emerald-500" />
+        <h2 class="text-lg font-bold text-slate-900 dark:text-slate-200">Latest Release</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
+        <!-- Live Snake Preview Canvas -->
+        <div class="lg:col-span-5 w-full">
+          <SnakePreview />
+        </div>
+
+        <!-- Details & Play Action -->
+        <div class="lg:col-span-7 flex flex-col justify-center gap-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/20 dark:border-emerald-500/30 uppercase tracking-wider">
+              {{ snakeGame.category }}
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-500/10 dark:bg-teal-500/20 text-teal-600 dark:text-teal-300 border border-teal-500/20 dark:border-teal-500/30 uppercase tracking-wider">
+              {{ snakeGame.badge }}
+            </span>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+            {{ snakeGame.title }}
+          </h3>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light">
+            {{ snakeGame.description }}
+          </p>
+
+          <div class="flex flex-wrap gap-2 py-1">
+            <span v-for="tag in snakeGame.tags" :key="tag"
+                  class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700/50">
+              #{{ tag }}
+            </span>
+          </div>
+
+          <div class="pt-2">
+            <RouterLink :to="snakeGame.link"
+                        class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all text-sm uppercase tracking-wider">
               <Play class="w-4 h-4 fill-white" />
               <span>Play Now</span>
             </RouterLink>

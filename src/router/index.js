@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import PortfolioView from '../views/PortfolioView.vue'
 import GamesView from '../views/GamesView.vue'
 import TetrisView from '../views/games/TetrisView.vue'
+import SnakeView from '../views/games/SnakeView.vue'
 
 const routes = [
   {
@@ -28,6 +29,12 @@ const routes = [
     name: 'TetrisGame',
     component: TetrisView,
     meta: { title: 'JS Tetris | Filza Buana Putra' }
+  },
+  {
+    path: '/games/snake',
+    name: 'SnakeGame',
+    component: SnakeView,
+    meta: { title: 'Retro Snake | Filza Buana Putra' }
   },
   {
     path: '/:pathMatch(.*)*',
